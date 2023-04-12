@@ -13,4 +13,6 @@ using rp_ef_maria.Models;
         }
 
         public DbSet<rp_ef_maria.Models.Game> Game { get; set; } = default!;
+
+          public DbSet<rp_ef_maria.Models.Rating> Rating { get; set; } = default!;
     }
