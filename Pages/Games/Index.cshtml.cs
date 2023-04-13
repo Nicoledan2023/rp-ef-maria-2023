@@ -57,7 +57,7 @@ namespace rp_ef_maria.Pages.Games
 
 					if (EndTime.HasValue)
 					{
-						games = games.Where(g => g.ReleaseDate <= StartTime);
+						games = games.Where(g => g.ReleaseDate <= EndTime);
 					}               
             }
 
