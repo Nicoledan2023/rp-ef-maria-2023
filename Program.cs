@@ -7,11 +7,16 @@ var dbmsVersion =new MariaDbServerVersion( builder.Configuration.GetValue<string
 var connString = builder.Configuration.GetConnectionString("StoreContent");
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(opt => {
+    //opt.Conventions.AuthorizePage("/Games/Delete");
+    opt.Conventions.AuthorizeFolder("/Games");
+    opt.Conventions.AllowAnonymousToPage("/Games/Index");
+    opt.Conventions.AllowAnonymousToPage("/Games/Details");
+});
 builder.Services.AddDbContext<StoreContext>(options =>
     options.UseMySql(connString,dbmsVersion));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<StoreContext>();
 
 var app = builder.Build();
 

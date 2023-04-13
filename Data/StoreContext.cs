@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using rp_ef_maria.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public class StoreContext :IdentityDbContext
+public class StoreContext :IdentityDbContext<ApplicationUser>
 {
         public StoreContext (DbContextOptions<StoreContext> options)
             : base(options)
