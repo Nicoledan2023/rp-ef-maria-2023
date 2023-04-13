@@ -24,8 +24,11 @@ namespace rp_ef_maria.Pages.Games
 		[BindProperty(SupportsGet = true)]
 		public string Query { get; set; } = default!;
 
-		//add for lab2
-		[BindProperty(SupportsGet = true)]
+        //add for lab2
+		 [BindProperty(SupportsGet = true)]
+        public bool checkboxbool { get; set; }
+
+        [BindProperty(SupportsGet = true)]
 		[DataType(DataType.Date)]
 		public DateTime? StartTime { get; set; }
 
@@ -50,15 +53,21 @@ namespace rp_ef_maria.Pages.Games
 					
                 }
 
+                if (checkboxbool)
+                {
+                     games = _context.Game.Where(g => g.Title.Contains(Query));
+                }
+				else{
 					if (StartTime.HasValue)
-					{
-						games = games.Where(g => g.ReleaseDate >= StartTime);
-					}
+                    {
+                        games = games.Where(g => g.ReleaseDate >= StartTime);
+                    }
 
-					if (EndTime.HasValue)
-					{
-						games = games.Where(g => g.ReleaseDate <= EndTime);
-					}               
+                    if (EndTime.HasValue)
+                    {
+                        games = games.Where(g => g.ReleaseDate <= EndTime);
+                    }
+				}
             }
 
             Game = await games.ToListAsync();
