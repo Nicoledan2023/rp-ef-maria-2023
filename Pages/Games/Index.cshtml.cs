@@ -33,7 +33,6 @@ namespace rp_ef_maria.Pages.Games
 		[DataType(DataType.Date)]
     	public DateTime? EndTime { get; set; }
 
-		public bool DisableTime { get; set; }
 		public async Task OnGetAsync()
 		{
 			IQueryable<Game> games =_context.Game; 
@@ -59,9 +58,7 @@ namespace rp_ef_maria.Pages.Games
 					if (EndTime.HasValue)
 					{
 						games = games.Where(g => g.ReleaseDate <= StartTime);
-					}
-
-                
+					}               
             }
 
             Game = await games.ToListAsync();
