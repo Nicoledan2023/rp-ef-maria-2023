@@ -53,12 +53,9 @@ namespace rp_ef_maria.Pages.Games
 					
                 }
 
-                if (checkboxbool)
+                if (!checkboxbool)
                 {
-                     games = _context.Game.Where(g => g.Title.Contains(Query));
-                }
-				else{
-					if (StartTime.HasValue)
+                    if (StartTime.HasValue)
                     {
                         games = games.Where(g => g.ReleaseDate >= StartTime);
                     }
@@ -67,7 +64,7 @@ namespace rp_ef_maria.Pages.Games
                     {
                         games = games.Where(g => g.ReleaseDate <= EndTime);
                     }
-				}
+                }
             }
 
             Game = await games.ToListAsync();
