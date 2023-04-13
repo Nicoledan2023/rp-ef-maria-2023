@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,25 +24,47 @@ namespace rp_ef_maria.Pages.Games
 		[BindProperty(SupportsGet = true)]
 		public string Query { get; set; } = default!;
 
+		//add for lab2
+		[BindProperty(SupportsGet = true)]
+		[DataType(DataType.Date)]
+		public DateTime? StartTime { get; set; }
+
+		[BindProperty(SupportsGet = true)]
+		[DataType(DataType.Date)]
+    	public DateTime? EndTime { get; set; }
+
+		public bool DisableTime { get; set; }
 		public async Task OnGetAsync()
 		{
-			IQueryable<Game> games; // story games query
-			if (Query != null)
-			{
-				// if title query is not empty, search for titles that contain the query
-				games = _context.Game.Where(g => g.Title.Contains(Query));
-			}
-			else
-			{
-				// otherwise, get all games
-				games = _context.Game;
-			}
+			IQueryable<Game> games =_context.Game; 
 
-			// add to query (further filter) to get games released in the last 5 years
-			games = games.Where(g => g.ReleaseDate > DateTime.Now.AddYears(-5));
+			if (StartTime.HasValue && EndTime.HasValue && EndTime < StartTime)
+			{
+				ModelState.AddModelError("EndTime", "End time must be greater than or equal to start time.");          
+            }
+            else
+            {
+                if (Query != null)
+                {
+                    // if title query is not empty, search for titles that contain the query
+                    games = _context.Game.Where(g => g.Title.Contains(Query));
+					
+                }
 
-			// do the query, staore in a list (do it asynchronously, so other program segments can run)
-			Game = await games.ToListAsync();
+					if (StartTime.HasValue)
+					{
+						games = games.Where(g => g.ReleaseDate >= StartTime);
+					}
+
+					if (EndTime.HasValue)
+					{
+						games = games.Where(g => g.ReleaseDate <= StartTime);
+					}
+
+                
+            }
+
+            Game = await games.ToListAsync();
 			// render the page
 			Page();
 

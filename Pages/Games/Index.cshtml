@@ -12,7 +12,15 @@
 	<h3>Filter</h3>
 	<form>
 		<p>Search Title: <input type="text" asp-for="Query" /></p>
-		<input type="submit" value="Search" />
+
+	<label for="start-time">Start Time : </label>
+	<input type="date" asp-for="StartTime"/>
+
+	<label for="end-time">End Time</label>
+	<input type="date"  asp-for="EndTime"/>
+	<span asp-validation-for="EndTime"></span>
+	<p></p>
+	<input type="submit" value="Search" />
 	</form>
 </div>
 
