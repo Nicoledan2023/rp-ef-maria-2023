@@ -1,9 +1,13 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
 @model IndexModel
+@inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home page";
     
-	ViewBag.Information = "This is a test";
+	ViewBag.Information = "You email address is  : ";
+
+    @UserManager.GetUserName(User);
 }
 
 <div class="text-center">
